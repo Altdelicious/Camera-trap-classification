@@ -15,7 +15,7 @@ MODEL_PATH    = "./models_splits/multi_label_mlp.pth"
 DATA_SPLIT_NPZ = "./models_splits/dataset_splits.npz"
 
 BATCH_SIZE    = 64
-EPOCHS        = 2000       
+EPOCHS        = 2500       
 VAL_EVERY     = 100        
 LEARNING_RATE = 1e-3
 DEVICE        = "cuda" if torch.cuda.is_available() else "cpu"
@@ -98,7 +98,8 @@ class MultiLabelMLP(nn.Module):
             nn.Linear(input_dim, 512), nn.LayerNorm(512), nn.ReLU(), nn.Dropout(0.3),
             nn.Linear(512, 256),       nn.LayerNorm(256), nn.ReLU(), nn.Dropout(0.3),
             nn.Linear(256, 128),       nn.LayerNorm(128), nn.ReLU(), nn.Dropout(0.3),
-            nn.Linear(128, num_classes)
+            nn.Linear(128, 64),        nn.LayerNorm(64),  nn.ReLU(), nn.Dropout(0.3),
+            nn.Linear(64, num_classes)
         )
         
     def forward(self, x):
